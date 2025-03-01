@@ -268,7 +268,7 @@ const Login = () => {
               flex: 1,
               backgroundColor: "#4158D0",
               backgroundImage:
-                "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
+                "linear-gradient(43deg,rgb(237, 18, 230) 0%,rgb(98, 199, 179) 46%,rgb(237, 69, 7) 100%)",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -289,12 +289,12 @@ const Login = () => {
                   color: "#fff",
                 }}
               >
-                <Heading sx={{ fontSize: "45px", color: "#fff" }}>
-                  Welcome to MD Clinic
+                <Heading sx={{ fontSize: "45px", color: "black" }}>
+                  Welcome to Doctor Consultation System
                 </Heading>
                 <SubHeading
                   sx={{
-                    color: "#fff",
+                   color: "black",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -308,7 +308,7 @@ const Login = () => {
                       to="/signup"
                       style={{
                         fontWeight: "bold",
-                        color: "#fff",
+                        color: "red",
                         textDecoration: "none",
                       }}
                       onMouseOver={(e) =>
