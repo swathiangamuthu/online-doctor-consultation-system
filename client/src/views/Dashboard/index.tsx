@@ -7,7 +7,7 @@ import {
   thousandSeparatorNumber,
 } from "../../utils";
 // React Icons
-import { IoPhonePortraitOutline } from "react-icons/io5";
+import { IoCallOutline, IoLogoWhatsapp, IoPhonePortraitOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { IoMdTime } from "react-icons/io";
@@ -99,11 +99,49 @@ const Dashboard = () => {
                               gap: "3px",
                             }}
                           >
-                            <IoPhonePortraitOutline />
-                            Phone Number
+                            <IoLogoWhatsapp />
+                            WhatsApp Chat
                           </Box>
-                          <Box>{maskingPhoneNumber(row?.phoneNumber)}</Box>
+                          <Box>
+                            <a
+                              href={`https://wa.me/91${row?.phoneNumber}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: "#25D366", textDecoration: "none" }}
+                            >
+                              Message on WhatsApp
+                            </a>
+                          </Box>
                         </Box>
+
+                        <Box
+                          sx={{
+                            margin: "15px 0 10px 0",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              minWidth: "180px",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "3px",
+                            }}
+                          >
+                            <IoCallOutline />
+                            Phone Call
+                          </Box>
+                          <Box>
+                            <a
+                              href={`tel:${row?.phoneNumber}`}
+                              style={{ color: "#007bff", textDecoration: "none" }}
+                            >
+                              Call Now
+                            </a>
+                          </Box>
+                        </Box>
+
                         <Box
                           sx={{
                             margin: "15px 0 10px 0",

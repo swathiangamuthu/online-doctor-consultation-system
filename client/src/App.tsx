@@ -20,6 +20,11 @@ import OverlayLoader from "./components/Spinner/OverlayLoader";
 import BookAppointment from "./views/Appointments/components/BookAppointment";
 import DoctorAppointment from "./views/Appointments/components/DoctorAppointment";
 import useTypedSelector from "./hooks/useTypedSelector";
+import AddArticleForm from "./views/Articles/AddArticles";
+import ArticleList from "./components/Article/ArticleList";
+import EmergencyReportForm from "./components/emergency/sendEmergency";
+import EmergencyStatusPage from "./components/emergency/myEmergencyStstus";
+import EmergencyStatusTable from "./components/emergency/emergencylist";
 
 function App() {
   const dispatch = useDispatch();
@@ -125,6 +130,62 @@ function App() {
               </ProtectedRoutes>
             }
           />
+          <Route
+            path="/add-articles"
+            element={
+              <ProtectedRoutes>
+                <AddArticleForm />
+              </ProtectedRoutes>
+
+            }
+          />
+
+
+          <Route
+            path="/articles"
+            element={
+              <ProtectedRoutes>
+                <ArticleList />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/EmergencyReportForm"
+            element={
+              <ProtectedRoutes>
+                <EmergencyReportForm />
+              </ProtectedRoutes>
+            }
+          />
+
+          <Route
+            path="/MyEmergencyStatusPage"
+            element={
+              <ProtectedRoutes>
+                <EmergencyStatusPage />
+              </ProtectedRoutes>
+            }
+          />
+
+          <Route
+            path="/EmergencyStatusTable"
+            element={
+              <ProtectedRoutes>
+                <EmergencyStatusTable />
+              </ProtectedRoutes>
+            }
+          />
+
+
+
+
+
+
+
+
+
+
+          {/* AddArticleForm */}
           <Route
             path="/profile/:id"
             element={

@@ -30,9 +30,14 @@ app.use((req, res, next) => {
 });
 
 // ROUTES
-
+const articles= require("./routes/Articleroutes")
+const emegency=require("./routes/emergencyRoutes")
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/doctors", doctorRouter);
+app.use("/articles",articles);
+app.use("/emergency", emegency);
+
+
 
 // PRODUCTION SETUP
 if (process.env.NODE_ENV === "production") {

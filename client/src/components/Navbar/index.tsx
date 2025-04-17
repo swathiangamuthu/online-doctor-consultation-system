@@ -142,8 +142,12 @@ export default function Navbar({ children }: DashboardProps) {
       icon: IoDocumentTextOutline,
       path: "/appointments",
     },
+    { text: "Emergency Report", icon: FaUserDoctor, path: "/EmergencyReportForm" },//
+    { text: "My Emergency Status", icon: FaUserDoctor, path: "/MyEmergencyStatusPage" },
     { text: "Apply Doctor", icon: FaUserDoctor, path: "/apply-doctor" },
+    { text: "Articles", icon: FaUserDoctor, path: "/articles" },
     { text: "Profile", icon: FaRegCircleUser, path: `/profile/${userId}` },
+
   ];
 
   const doctorRoutes = [
@@ -152,7 +156,10 @@ export default function Navbar({ children }: DashboardProps) {
       text: "Appointments",
       icon: IoDocumentTextOutline,
       path: "/doctors/appointments",
-    },
+    },///EmergencyStatusTable
+    { text: "EmergencyStatusTable", icon: FaRegCircleUser, path: `/EmergencyStatusTable` },///add-articles
+    { text: "Add-articles", icon: FaUserDoctor, path: "/add-articles" },
+    { text: "Articles", icon: FaUserDoctor, path: "/articles" },
     { text: "Profile", icon: FaRegCircleUser, path: `/profile/${userId}` },
   ];
 
@@ -163,7 +170,10 @@ export default function Navbar({ children }: DashboardProps) {
       icon: FaUsers,
       path: "/users",
     },
+    { text: "EmergencyStatusTable", icon: FaRegCircleUser, path: `/EmergencyStatusTable` },
     { text: "Doctors", icon: FaUserDoctor, path: "/doctors" },
+    { text: "Add-articles", icon: FaUserDoctor, path: "/add-articles" },
+    { text: "Articles", icon: FaUserDoctor, path: "/articles" },
     { text: "Profile", icon: FaRegCircleUser, path: `/profile/${userId}` },
   ];
 
@@ -171,7 +181,7 @@ export default function Navbar({ children }: DashboardProps) {
   const chipLabel = isAdmin ? "Admin" : isDoctor ? "Doctor" : "User";
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex"}}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -251,7 +261,7 @@ export default function Navbar({ children }: DashboardProps) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ margin: open ? "0 18px" : "0 9px" }}>
+        <List sx={{ margin: open ? "0 18px" : "0 9px"}}>
           {routes.map((route, index) => (
             <ListItem
               key={route.text}
@@ -261,6 +271,7 @@ export default function Navbar({ children }: DashboardProps) {
                 backgroundColor:
                   location.pathname === route.path ? "#eff1f7" : "inherit",
                 borderRadius: "10px",
+
               }}
             >
               <ListItemButton

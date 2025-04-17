@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^7.0.2",
     "@mui/material": "^5.14.18",
     "@mui/x-date-pickers": "^5.0.10",
     "@reduxjs/toolkit": "^1.9.7",
@@ -19,6 +20,7 @@
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "formik": "^2.4.5",
+    "framer-motion": "^12.7.4",
     "libphonenumber-js": "^1.10.49",
     "material-ui-phone-number": "^3.0.0",
     "moment": "^2.29.4",

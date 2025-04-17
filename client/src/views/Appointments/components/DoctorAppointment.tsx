@@ -99,8 +99,24 @@ const DoctorAppointment = () => {
                   <StyledTableCell>{row._id}</StyledTableCell>
                   <StyledTableCell>{`${row.userInfo?.name}`}</StyledTableCell>
                   <StyledTableCell>
-                    {maskingPhoneNumber(row?.userInfo?.phoneNumber)}
+                    {maskingPhoneNumber(row?.userInfo?.phoneNumber)} &nbsp;|&nbsp;
+                    <a
+                      href={`https://wa.me/91${row?.userInfo?.phoneNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "#25D366", textDecoration: "none" }}
+                    >
+                      WhatsApp
+                    </a>
+                    &nbsp;|&nbsp;
+                    <a
+                      href={`tel:${row?.userInfo?.phoneNumber}`}
+                      style={{ color: "#007bff", textDecoration: "none" }}
+                    >
+                      Call
+                    </a>
                   </StyledTableCell>
+
                   <StyledTableCell>{`${formatDate(row?.date)} ${formatTime(
                     row?.time
                   )}`}</StyledTableCell>
@@ -110,10 +126,10 @@ const DoctorAppointment = () => {
                         row.status === "pending"
                           ? "Pending"
                           : row.status === "approved"
-                          ? "Approved"
-                          : row.status === "rejected"
-                          ? "Cancelled"
-                          : ""
+                            ? "Approved"
+                            : row.status === "rejected"
+                              ? "Cancelled"
+                              : ""
                       }
                     />
                   </StyledTableCell>
