@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Appointment = require("../models/appointmentModel");
 const moment = require("moment");
 const Doctor = require("../models/doctorModel");
+const { sendAppoinmentConfirmationEmail, sendAppoinmentIntoDoctorEmail } = require("../utils/email");
 
 exports.verifyUser = catchAsync(async (req, res, next) => {
   res.status(200).json({
@@ -61,6 +62,22 @@ exports.bookAppointment = catchAsync(async (req, res, next) => {
     onClickPath: "/doctor/appointments",
   });
   await user.save();
+
+  const emaildata={
+     userName:user.name
+     , doctorName:newAppointment.doctorInfo.fullName
+     , date:moment(req.body.date)
+     , time : moment(req.body.time)
+  }
+  const doctoremaildata={ 
+    doctorName:newAppointment.doctorInfo.fullName
+    , userName:user.name
+    , date:moment(req.body.date)
+    , time:moment(req.body.time)
+   }
+
+  await sendAppoinmentConfirmationEmail(user.email,emaildata) // Send email to user
+  await sendAppoinmentIntoDoctorEmail(newAppointment.doctorInfo.email,doctoremaildata) // Send email to doctor
 
   res.status(200).json({
     status: "success",

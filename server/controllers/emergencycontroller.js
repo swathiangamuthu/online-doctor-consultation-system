@@ -1,10 +1,32 @@
 // controllers/emergencyController.js
+const Doctor = require('../models/doctorModel');
 const Emergency = require('../models/emegencymodel');
+const User = require('../models/userModel');
+const { sendEmergencyEmail } = require('../utils/email');
 
 exports.reportEmergency = async (req, res) => {
   try {
     const emergency = await Emergency.create(req.body);
-    res.status(201).json(emergency);
+    
+    const user = await User.find();
+       const doctor = await Doctor.find();
+       
+       user.map(async(user) => {
+         if (user.role === 'admin') {
+           await sendEmergencyEmail(user.email,emergency);
+          }
+        });
+        
+        doctor.map(async(doctor) => {
+        
+            await sendEmergencyEmail(doctor.email,emergency);
+          
+        })
+
+        
+        res.status(201).json(emergency);
+    
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -51,6 +73,7 @@ exports.UpdateEmergencyStatus = async (req, res) => {
     }
 
     res.status(200).json({ message: 'Status updated successfully', data: updatedEmergency });
+    
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
