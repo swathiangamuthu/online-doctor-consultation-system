@@ -43,6 +43,7 @@ import {
   useGetUserQuery,
 } from "../../../redux/api/userSlice";
 import ToastAlert from "../../../components/ToastAlert/ToastAlert";
+import ReviewList from "./reviewcard";
 
 const AppointmentSchema = Yup.object().shape({
   date: Yup.string().required("Date is required"),
@@ -62,11 +63,26 @@ const BookAppointment = () => {
   const isDoctor = useTypedSelector(userIsDoctor);
   const [isAvailable, setIsAvailable] = useState(false);
   const [appointment, setAppointment] = useState("");
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState(5); // assuming rating is out of 5
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formValues, setFormValues] = useState<AppointmentForm>({
     date: null,
     time: null,
   });
+
+
+  
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const userData = user?.data?.user;
+  const userName = userData?.name;
+  const userEmail = userData?.email;
+
+
+ console.log(userData)
 
   const [toast, setToast] = useState({
     message: "",
@@ -98,6 +114,49 @@ const BookAppointment = () => {
 
   const [checkBookingAvailability, { isLoading: checkBookingLoading }] =
     useCheckBookingAvailabilityMutation();
+
+  const handleReviewSubmit = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/v1/doctors/${userId}/review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name:userName,
+          email: userEmail,
+          rating,
+          comment: review,
+        }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+
+      if (response.ok) {
+        setToast({
+          message: result.message || "Review submitted successfully!",
+          appearence: true,
+          type: "success",
+        });
+        setReview("");
+      } else {
+        setToast({
+          message: result.message || "Failed to submit review.",
+          appearence: true,
+          type: "error",
+        });
+      }
+    } catch (err) {
+      setToast({
+        message: "Something went wrong!",
+        appearence: true,
+        type: "error",
+      });
+    }
+  };
+
+
 
   const appointmentHandler = async (appointmentData: AppointmentForm) => {
     if (appointment === "checkAvailability") {
@@ -182,7 +241,10 @@ const BookAppointment = () => {
     }
   };
 
-  return (
+
+  console.log(data?.data)
+
+  return (  
     <>
       {(isLoading || logedInUserLoading || getAppointmentLoading) && (
         <OverlayLoader />
@@ -225,9 +287,11 @@ const BookAppointment = () => {
                     }}
                   >
                     <IoMdTime />
-                    <Box>{`${convertToAMPMFormat(
+                    <Box>
+                      {`${convertToAMPMFormat(
                       data?.data?.fromTime
-                    )} to ${convertToAMPMFormat(data?.data?.toTime)}`}</Box>
+                    )} to ${convertToAMPMFormat(data?.data?.toTime)}`}
+                    </Box>
                   </Box>
                 </Box>
                 <Divider />
@@ -485,6 +549,51 @@ const BookAppointment = () => {
                   </Box>
                   <Box>{data?.data?.address}</Box>
                 </Box>
+
+               <Box >
+               <ReviewList reviews={data?.data?.reviews}/>
+               </Box>
+
+
+            {/*  */}
+
+                {!isAvailable && (
+                  <Box sx={{ mt: 4 }}>
+                    <Heading sx={{ fontSize: "18px" }}>Submit a Review</Heading>
+
+                    <TextField
+                      label="Your Review"
+                      multiline
+                      rows={4}
+                      fullWidth
+                      value={review}
+                      onChange={(e) => setReview(e.target.value)}
+                      sx={{ my: 2 }}
+                    />
+
+                    <TextField
+                      label="Rating (1 to 5)"
+                      type="number"
+                      fullWidth
+                      value={rating}
+                      onChange={(e) => setRating(Number(e.target.value))}
+                      inputProps={{ min: 1, max: 5 }}
+                      sx={{ mb: 2 }}
+                    />
+
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      onClick={handleReviewSubmit}
+                      disabled={!review.trim()}
+                    >
+                      Submit Review
+                    </Button>
+                  </Box>
+                )}
+
+
               </Box>
             </Grid>
             {getAppointmentData?.data?.length > 0 && (

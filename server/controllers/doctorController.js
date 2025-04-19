@@ -193,3 +193,51 @@ exports.getBookAppointments = catchAsync(async (req, res, next) => {
     data: appointments,
   });
 });
+
+
+
+
+exports.addDoctorReview = async (req, res) => {
+  try {
+    const { doctorId } = req.params;
+    console.log(doctorId);
+    
+    const { name, email, rating, comment } = req.body;
+
+    const doctor = await Doctor.findOne({userId: doctorId});
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Check if this email already reviewed
+    const alreadyReviewed = doctor.reviews.find(
+      (rev) => rev.email === email
+    );
+
+    if (alreadyReviewed) {
+      // Update
+      alreadyReviewed.rating = rating;
+      alreadyReviewed.comment = comment;
+    } else {
+      // New
+      const review = {
+        name,
+        email,
+        rating: Number(rating),
+        comment,
+      };
+
+      doctor.reviews.push(review);
+    }
+
+    // Recalculate average rating
+    doctor.averageRating =
+      doctor.reviews.reduce((acc, r) => acc + r.rating, 0) /
+      doctor.reviews.length;
+
+    await doctor.save();
+    res.status(200).json({ message: "Review added/updated successfully", doctor });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

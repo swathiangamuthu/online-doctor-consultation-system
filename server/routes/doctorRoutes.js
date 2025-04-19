@@ -23,6 +23,7 @@ const router = express.Router();
 // DOCTOR CONTROLLER
 router.get("/",doctorController.getAllDoctors);
 router.get("/approved-doctors", doctorController.getAllApprovedDoctors);
+router.post("/:doctorId/review",doctorController.addDoctorReview);
 
 router.use(authController.protect);
 
@@ -39,5 +40,6 @@ router.post(
   "/check-booking-availability",
   doctorController.checkBookingAvailability
 );
+
 
 module.exports = router;
