@@ -12,7 +12,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { IoMdTime } from "react-icons/io";
 // MUI Imports
-import { Box, Grid, Divider } from "@mui/material";
+import { Box, Grid, Divider, Rating } from "@mui/material";
 // Custom Imports
 import { Heading } from "../../components/Heading";
 import Navbar from "../../components/Navbar";
@@ -204,6 +204,7 @@ const Dashboard = () => {
                           <Box>{`${convertToAMPMFormat(
                             row?.fromTime
                           )} to ${convertToAMPMFormat(row?.toTime)}`}</Box>
+                           <Rating sx={{marginLeft:"20px"}} value={row?.averageRating} readOnly />
                         </Box>
                       </Box>
                     </Grid>

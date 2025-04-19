@@ -1,6 +1,31 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
+const reviewSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      validate: [validator.isEmail, "Please provide a valid email"],
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+    },
+    comment: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+
+
 const doctorSchema = new mongoose.Schema(
   {
     userId: {
@@ -62,7 +87,12 @@ const doctorSchema = new mongoose.Schema(
       default: "pending",
     },
     certificate: {
-      type:String
+      type: String,
+    },
+    reviews: [reviewSchema],
+    averageRating: {
+      type: Number,
+      default: 0,
     },
   },
   {
@@ -70,5 +100,5 @@ const doctorSchema = new mongoose.Schema(
   }
 );
 
-const Doctor = new mongoose.model("Doctor", doctorSchema);
+const Doctor = mongoose.model("Doctor", doctorSchema);
 module.exports = Doctor;
